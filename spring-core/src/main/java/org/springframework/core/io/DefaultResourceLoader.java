@@ -143,14 +143,14 @@ public class DefaultResourceLoader implements ResourceLoader {
 	@Override
 	public Resource getResource(String location) {
 		Assert.notNull(location, "Location must not be null");
-
+		// 如果设置了用户自定义协议资源解决策略，则首先通过协议处理
 		for (ProtocolResolver protocolResolver : getProtocolResolvers()) {
 			Resource resource = protocolResolver.resolve(location, this);
 			if (resource != null) {
 				return resource;
 			}
 		}
-
+		// 以/开头的返回ClassPathContextResource资源
 		if (location.startsWith("/")) {
 			return getResourceByPath(location);
 		}
@@ -161,10 +161,12 @@ public class DefaultResourceLoader implements ResourceLoader {
 			try {
 				// Try to parse the location as a URL...
 				URL url = new URL(location);
+				// 通过判断url的前缀是否为file，vfsfile，vfs，是则按照file处理，否则按照网络资源处理
 				return (ResourceUtils.isFileURL(url) ? new FileUrlResource(url) : new UrlResource(url));
 			}
 			catch (MalformedURLException ex) {
 				// No URL -> resolve as resource path.
+				//这里会被子类重写
 				return getResourceByPath(location);
 			}
 		}
