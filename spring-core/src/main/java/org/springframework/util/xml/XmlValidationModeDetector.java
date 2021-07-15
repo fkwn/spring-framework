@@ -92,17 +92,21 @@ public class XmlValidationModeDetector {
 		// Peek into the file to look for DOCTYPE.
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 		try {
+			//是否是dtd验证模式，默认false
 			boolean isDtdValidated = false;
 			String content;
 			while ((content = reader.readLine()) != null) {
+				//读取第一行通过判断是否包含DOCTYPE来判断是否尾dtd验证类型
 				content = consumeCommentTokens(content);
 				if (this.inComment || !StringUtils.hasText(content)) {
 					continue;
 				}
+				//通过判断是否包含DOCTYPE，如果有则为dtd模式
 				if (hasDoctype(content)) {
 					isDtdValidated = true;
 					break;
 				}
+				//如果是“<字母”则为xsd模式
 				if (hasOpeningTag(content)) {
 					// End of meaningful data...
 					break;
@@ -150,6 +154,7 @@ public class XmlValidationModeDetector {
 	@Nullable
 	private String consumeCommentTokens(String line) {
 		int indexOfStartComment = line.indexOf(START_COMMENT);
+		//如果改行非注释行
 		if (indexOfStartComment == -1 && !line.contains(END_COMMENT)) {
 			return line;
 		}
