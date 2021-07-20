@@ -113,6 +113,8 @@ public class PluggableSchemaResolver implements EntityResolver {
 		}
 
 		if (systemId != null) {
+			//getSchemaMappings() 加载MATA-INF/spring.schemas文件下的配置项，其中key即为systemId
+			//通过systemId去获取具体验证规则的文件地址
 			String resourceLocation = getSchemaMappings().get(systemId);
 			if (resourceLocation == null && systemId.startsWith("https:")) {
 				// Retrieve canonical http schema mapping even for https declaration
@@ -154,6 +156,7 @@ public class PluggableSchemaResolver implements EntityResolver {
 						logger.trace("Loading schema mappings from [" + this.schemaMappingsLocation + "]");
 					}
 					try {
+						//这里schemaMappingsLocation=META-INF/spring.schemas，是在初始化时进行的赋值
 						Properties mappings =
 								PropertiesLoaderUtils.loadAllProperties(this.schemaMappingsLocation, this.classLoader);
 						if (logger.isTraceEnabled()) {

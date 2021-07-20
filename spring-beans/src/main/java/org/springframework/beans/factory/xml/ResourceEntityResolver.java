@@ -80,10 +80,13 @@ public class ResourceEntityResolver extends DelegatingEntityResolver {
 		if (source == null && systemId != null) {
 			String resourcePath = null;
 			try {
+				//使用utf-8解码
 				String decodedSystemId = URLDecoder.decode(systemId, "UTF-8");
+				//创建网络资源
 				String givenUrl = new URL(decodedSystemId).toString();
 				String systemRootUrl = new File("").toURI().toURL().toString();
 				// Try relative to resource base if currently in system root.
+				//如果地址是在该项目下，则采用相对地址
 				if (givenUrl.startsWith(systemRootUrl)) {
 					resourcePath = givenUrl.substring(systemRootUrl.length());
 				}
@@ -108,6 +111,8 @@ public class ResourceEntityResolver extends DelegatingEntityResolver {
 					logger.debug("Found XML entity [" + systemId + "]: " + resource);
 				}
 			}
+
+			//如果以dtd或xsd结尾则通过网络获取
 			else if (systemId.endsWith(DTD_SUFFIX) || systemId.endsWith(XSD_SUFFIX)) {
 				// External dtd/xsd lookup via https even for canonical http declaration
 				String url = systemId;

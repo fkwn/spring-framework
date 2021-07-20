@@ -1383,6 +1383,8 @@ public class BeanDefinitionParserDelegate {
 		if (namespaceUri == null) {
 			return null;
 		}
+		//根据不同的命名空间选择对应的handler进行解析
+		//通过读取META-INF/spring.handlers中的配置确定对应命名空间中的handler
 		NamespaceHandler handler = this.readerContext.getNamespaceHandlerResolver().resolve(namespaceUri);
 		if (handler == null) {
 			error("Unable to locate Spring NamespaceHandler for XML schema namespace [" + namespaceUri + "]", ele);
