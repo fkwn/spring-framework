@@ -56,9 +56,11 @@ public abstract class BeanDefinitionReaderUtils {
 	 */
 	public static AbstractBeanDefinition createBeanDefinition(
 			@Nullable String parentName, @Nullable String className, @Nullable ClassLoader classLoader) throws ClassNotFoundException {
-
+		//创建BeanDefintion
 		GenericBeanDefinition bd = new GenericBeanDefinition();
+		//设置parentName
 		bd.setParentName(parentName);
+		//设置beanClass
 		if (className != null) {
 			if (classLoader != null) {
 				bd.setBeanClass(ClassUtils.forName(className, classLoader));

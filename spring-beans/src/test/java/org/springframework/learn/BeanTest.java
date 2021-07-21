@@ -2,6 +2,7 @@ package org.springframework.learn;
 
 import org.junit.Test;
 import org.springframework.beans.factory.xml.BeansDtdResolver;
+import org.springframework.util.StringUtils;
 
 import java.io.*;
 
@@ -15,7 +16,13 @@ import java.io.*;
 public class BeanTest {
 	@Test
 	public void testEntityResolver() throws IOException {
-		BeansDtdResolver resolver=new BeansDtdResolver();
-		resolver.resolveEntity("-//SPRING//DTD BEAN 2.0//EN","http://www.springframework.org/dtd/spring-beans.dtd");
+		// BeansDtdResolver resolver=new BeansDtdResolver();
+		// resolver.resolveEntity("-//SPRING//DTD BEAN 2.0//EN","http://www.springframework.org/dtd/spring-beans.dtd");
+
+		String[] str=StringUtils.tokenizeToStringArray("1,2;3 4", ",; ");
+
+		for(String st:str){
+			System.out.println(st);
+		}
 	}
 }
